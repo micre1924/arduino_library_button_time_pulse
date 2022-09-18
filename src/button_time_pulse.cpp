@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "button_time_pulse.h"
 
-button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)() = nullCallback, void(*onPressed)() = nullCallback){
+button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(), void(*onPressed)()){
     this->buttonPin = buttonPin;
     this->debounceTime = debounceTime;
     this->isMicro = isMicro;
