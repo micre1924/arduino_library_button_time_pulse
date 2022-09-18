@@ -14,7 +14,7 @@ public:
     void(*onPressed)();
     void(*onReleased)();
 
-    button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(), void(*onPressed)());
+    button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)() = nullCallback, void(*onPressed)() = nullCallback);
     void poll();
     static void nullCallback(){};
 };
