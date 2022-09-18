@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "button_time_pulse.h"
 
+void button_time_pulse::nullCallback(){};
+
 button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(), void(*onPressed)()){
     this->buttonPin = buttonPin;
     this->debounceTime = debounceTime;
@@ -31,5 +33,3 @@ void button_time_pulse::poll(){
         }
     }
 }
-
-void button_time_pulse::nullCallback(){};

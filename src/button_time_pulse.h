@@ -13,8 +13,8 @@ public:
     unsigned int debounceTime = 0;
     void(*onPressed)();
     void(*onReleased)();
+    static void nullCallback(){};
 
     button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)() = nullCallback, void(*onPressed)() = nullCallback);
     void poll();
-    static void nullCallback(){};
 };
