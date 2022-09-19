@@ -1,6 +1,7 @@
 #include "Arduino.h"
 
 void nullCallback();
+void nullCallback(unsigned long);
 
 class button_time_pulse {
 public:
@@ -15,8 +16,8 @@ public:
     unsigned long outTimestamp = 0;
     unsigned int debounceTime = 0;
     void(*onPressed)();
-    void(*onReleased)();
+    void(*onReleased)(unsigned long);
 
-    button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)() = nullCallback, void(*onPressed)() = nullCallback);
+    button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(unsigned long) = nullCallback, void(*onPressed)() = nullCallback);
     void poll();
 };
