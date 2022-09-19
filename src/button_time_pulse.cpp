@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "button_time_pulse.h"
 
-void nullCallback(){};
+void nullCallback() {};
 
 button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(), void(*onPressed)()){
     this->buttonPin = buttonPin;
@@ -16,19 +16,20 @@ void button_time_pulse::poll(){
     pulseIn = false;
     pulseOut = false;
     if(digitalRead(buttonPin)){
+        if((outTimestamp + debounceTime) < curTime) triggerOut = false;
         if(!triggerIn){
             triggerIn = true;
             pulseIn = true;
-            lastTimestamp = curTime;
-            triggerOut = false;
+            inTimestamp = curTime;
             onPressed();
         }
     } else {
-        if((lastTimestamp + debounceTime) > curTime) triggerIn = false;
+        if((inTimestamp + debounceTime) < curTime) triggerIn = false;
         if(!triggerOut){
             triggerOut = true;
             pulseOut = true;
-            pressedTime = curTime - lastTimestamp;
+            outTimestamp = curTime;
+            pressedTime = outTimestamp - inTimestamp;
             onReleased();
         }
     }
