@@ -2,8 +2,9 @@
 #include "button_time_pulse.h"
 
 void nullCallback() {};
+void nullCallback(unsigned long) {};
 
-button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(), void(*onPressed)()){
+button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(unsigned long), void(*onPressed)()){
     this->buttonPin = buttonPin;
     this->debounceTime = debounceTime;
     this->isMicro = isMicro;
@@ -30,7 +31,7 @@ void button_time_pulse::poll(){
             pulseOut = true;
             outTimestamp = curTime;
             pressedTime = outTimestamp - inTimestamp;
-            onReleased();
+            onReleased(pressedTime);
         }
     }
 }
