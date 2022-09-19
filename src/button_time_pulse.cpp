@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "button_time_pulse.h"
 
-void button_time_pulse::nullCallback(){};
+void nullCallback(){};
 
 button_time_pulse::button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(), void(*onPressed)()){
     this->buttonPin = buttonPin;
