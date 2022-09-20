@@ -1,35 +1,42 @@
 #include "Arduino.h"
 
-void nullCallback();
-void nullCallback(unsigned long);
+namespace mrc{
 
-class button_time_pulse {
-public:
-    byte buttonPin = -1;
-    bool isMicro = false;
-    bool pulseIn = false;
-    bool pulseOut = false;
-    bool triggerIn = false;
-    bool triggerOut = false;
-    unsigned long pressedTime = 0;
-    unsigned long inTimestamp = 0;
-    unsigned long outTimestamp = 0;
-    unsigned int debounceTime = 0;
-    void(*onPressed)();
-    void(*onReleased)(unsigned long);
+    struct buttonArgs{
+            //is true for one programm cycle once the button has been pressed
+            bool pulseIn = false;
+            //is true for one programm cycle once the button has been released
+            bool pulseOut = false;
+            //is true once the button has been pressed, till button is relaesed
+            bool triggerIn = false;
+            //is true once the button has been released, till button is pressed
+            bool triggerOut = false;
+            //is the time the button has been pressed, till it was released
+            uint64_t pressedTime = 0;
+            //is the raw timestamp when the button has been pressed
+            uint64_t inTimestamp = 0; 
+            //is the raw timestamp when the button has been released
+            uint64_t outTimestamp = 0;
+        };
 
-    // @param buttonPin pinMode is declared in the library
-    // @param debounceTime the time to wait to accept new input
-    // @param isMicro when true micros() is used as a time basis, millis() otherwise (from Arduino.h)
-    // @param onRelease the callback for the release-button-event with pressed-time parameter
-    // @param onPressed the callback for the pressed-button-event without parameters
-    button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onReleased)(unsigned long), void(*onPressed)() = nullCallback);
+    void nullCallback(buttonArgs);
 
-    // @param buttonPin pinMode is declared in the library
-    // @param debounceTime the time to wait to accept new input
-    // @param isMicro when true micros() is used as a time basis, millis() otherwise (from Arduino.h)
-    // @param onPressed the callback for the pressed-button-event without parameters
-    button_time_pulse(byte buttonPin, unsigned int debounceTime, bool isMicro, void(*onPressed)() = nullCallback);
+    class button_time_pulse {
+    public:
+        buttonArgs data;
+        uint8_t buttonPin = -1;
+        bool isMicro;
+        uint16_t debounceTime = 0;
+        void(*onPressed)(buttonArgs);
+        void(*onReleased)(buttonArgs);
 
-    void poll();
-};
+        // @param buttonPin pinMode is declared in the library
+        // @param debounceTime the time to wait to accept new input
+        // @param isMicro when true micros() is used as a time basis, millis() otherwise (from Arduino.h)
+        // @param onReleased the callback for the release-button-event with buttonArgs
+        // @param onPressed the callback for the pressed-button-event with buttonArgs
+        button_time_pulse(uint8_t buttonPin, uint16_t debounceTime, bool isMicro, void(*onReleased)(buttonArgs) = nullCallback, void(*onPressed)(buttonArgs) = nullCallback);
+
+        void poll();
+    };
+}
