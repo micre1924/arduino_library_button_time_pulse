@@ -8,9 +8,9 @@ namespace mrc{
             //is true for one programm cycle once the button has been released
             bool pulseOut = false;
             //is true once the button has been pressed, till button is relaesed
-            bool triggerIn = false;
+            bool triggerIn = true;
             //is true once the button has been released, till button is pressed
-            bool triggerOut = false;
+            bool triggerOut = true;
             //is the time the button has been pressed, till it was released
             uint64_t pressedTime = 0;
             //is the raw timestamp when the button has been pressed
